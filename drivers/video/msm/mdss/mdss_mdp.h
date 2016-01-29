@@ -48,6 +48,7 @@
 
 #define VALID_ROT_WB_FORMAT BIT(0)
 #define VALID_MDP_WB_INTF_FORMAT BIT(1)
+#define VALID_MDP_CURSOR_FORMAT BIT(2)
 
 #define C3_ALPHA	3	/* alpha */
 #define C2_R_Cr		2	/* R/Cr */
@@ -88,6 +89,8 @@
 /* hw cursor can only be setup in highest mixer stage */
 #define HW_CURSOR_STAGE(mdata) \
 	(((mdata)->max_target_zorder + MDSS_MDP_STAGE_0) - 1)
+
+#define BITS_TO_BYTES(x) DIV_ROUND_UP(x, BITS_PER_BYTE)
 
 enum mdss_mdp_perf_state_type {
 	PERF_SW_COMMIT_STATE = 0,
@@ -308,6 +311,8 @@ struct mdss_mdp_writeback {
 	char __iomem *base;
 	u32 caps;
 	struct kref kref;
+	u8 supported_input_formats[BITS_TO_BYTES(MDP_IMGTYPE_LIMIT)];
+	u8 supported_output_formats[BITS_TO_BYTES(MDP_IMGTYPE_LIMIT)];
 };
 
 struct mdss_mdp_ctl_intfs_ops {
@@ -896,6 +901,7 @@ struct mdss_mdp_pipe {
 	wait_queue_head_t free_waitq;
 	u32 frame_rate;
 	u8 csc_coeff_set;
+	u8 supported_formats[BITS_TO_BYTES(MDP_IMGTYPE_LIMIT)];
 };
 
 struct mdss_mdp_writeback_arg {
@@ -1812,6 +1818,8 @@ void mdss_mdp_wb_free(struct mdss_mdp_writeback *wb);
 
 void mdss_mdp_ctl_dsc_setup(struct mdss_mdp_ctl *ctl,
 	struct mdss_panel_info *pinfo);
+
+void mdss_mdp_set_supported_formats(struct mdss_data_type *mdata);
 
 void mdss_mdp_video_isr(void *ptr, u32 count);
 void mdss_mdp_enable_hw_irq(struct mdss_data_type *mdata);
