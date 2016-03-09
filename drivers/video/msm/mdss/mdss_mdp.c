@@ -1382,6 +1382,9 @@ static void mdss_mdp_hw_rev_caps_init(struct mdss_data_type *mdata)
 		mdata->pixel_ram_size = 16 * 1024;
 		mdata->apply_post_scale_bytes = false;
 		mdata->hflip_buffer_reused = false;
+		/* disable ECG for 28nm PHY platform */
+		mdata->enable_gate = false;
+		mem_protect_sd_ctrl_id = MEM_PROTECT_SD_CTRL;
 		set_bit(MDSS_QOS_CDP, mdata->mdss_qos_map);
 		set_bit(MDSS_QOS_PER_PIPE_LUT, mdata->mdss_qos_map);
 		set_bit(MDSS_QOS_SIMPLIFIED_PREFILL, mdata->mdss_qos_map);
@@ -1391,6 +1394,7 @@ static void mdss_mdp_hw_rev_caps_init(struct mdss_data_type *mdata)
 		set_bit(MDSS_QOS_OTLIM, mdata->mdss_qos_map);
 		mdss_set_quirk(mdata, MDSS_QUIRK_DMA_BI_DIR);
 		mdss_set_quirk(mdata, MDSS_QUIRK_MIN_BUS_VOTE);
+		mdss_set_quirk(mdata, MDSS_QUIRK_NEED_SECURE_MAP);
 		break;
 	case MDSS_MDP_HW_REV_300:
 	case MDSS_MDP_HW_REV_301:
