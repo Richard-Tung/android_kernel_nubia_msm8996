@@ -20,6 +20,8 @@
 #include <linux/types.h>
 #include <linux/debugfs.h>
 
+#define KHZ_TO_HZ 1000
+
 /* panel id type */
 struct panel_id {
 	u16 id;
