@@ -2130,7 +2130,7 @@ static bool __is_display_fps_changed(struct msm_fb_data_type *mfd,
 {
 	bool display_fps_changed = false;
 	u32 display_fp1000s
-		= mdss_panel_get_framerate(mfd->panel_info, FPS_RESOLUTION_KHZ);
+		= mdss_panel_get_framerate(mfd->panel_info);
 
 	if (frc_info->display_fp1000s != display_fp1000s) {
 		pr_debug("fps changes from %d to %d\n",
@@ -2292,7 +2292,7 @@ static void __set_frc_base(struct msm_fb_data_type *mfd,
 	frc_info->video_stat.frame_cnt = frc_info->cur_frc.frame_cnt;
 	frc_info->video_stat.timestamp = frc_info->cur_frc.timestamp;
 	frc_info->display_fp1000s =
-		mdss_panel_get_framerate(mfd->panel_info, FPS_RESOLUTION_KHZ);
+		mdss_panel_get_framerate(mfd->panel_info);
 
 
 	pr_debug("frc_base: vsync_cnt=%d frame_cnt=%d timestamp=%lld\n",
